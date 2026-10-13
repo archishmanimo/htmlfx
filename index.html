@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      :root {
+        --card-size: 480px;
+        --background-rgb: 2 6 23;
+        --background-light-rgb: 30 41 59;
+        --main-rgb: 41 121 255;
+        --main-light-rgb: 56 182 255;
+        --secondary-rgb: 42 252 152;
+      }
+      body {
+        height: 100vh;
+        margin: 0;
+        display: grid;
+        place-items: center;
+        background-color: rgb(var(--background-rgb));
+      }
+      .container {
+        height: var(--card-size);
+        aspect-ratio: 1/1;
+        background: transparent;
+        color: white;
+        border: 1px solid rgb(116, 116, 116);
+        font-size: 1rem;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      #text {
+        font-family: monospace;
+        mask-image: radial-gradient(
+          calc(var(--card-size) * 0.8) circle at var(--x) var(--y),
+          rgb(255 255 255) 20%,
+          rgb(255 255 255 / 25%),
+          transparent
+        );
+        border-radius: 50px;
+        overflow-wrap: anywhere;
+        overflow: hidden;
+        height: var(--card-size);
+      }
+      .card-gradient {
+        height: 480px;
+        aspect-ratio: 1/1;
+        position: absolute;
+        background: radial-gradient(
+          rgb(var(--background-light-rgb)) 40%,
+          rgb(var(--main-rgb)) 50%,
+          rgb(var(--main-light-rgb)),
+          rgb(var(--secondary-rgb))
+        );
+        mix-blend-mode: darken;
+        pointer-events: none;
+        z-index: 3;
+      }
+      .img {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        z-index: 4;
+        mix-blend-mode: screen;
+
+        top:50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+      }
+      .img img{
+        border-radius: 200px;
+
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container" id="cont">
+      <div class="img">
+        <h2>Hover Here</h2>
+      </div>
+      <div class="card-gradient"></div>
+      <div id="text"></div>
+    </div>
+    <script>
+      function makeid(length) {
+        let result = "";
+        const characters = "01";
+        const character =
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        const charactersLength = characters.length;
+        let counter = 0;
+        while (counter < length) {
+          result += characters.charAt(
+            Math.floor(Math.random() * charactersLength)
+          );
+          counter += 1;
+        }
+        return result;
+      }
+      document.addEventListener("mousemove", (e) => {
+        let card = document.querySelector("#cont");
+        const rect = card.getBoundingClientRect(),
+          x = e.clientX - rect.left,
+          y = e.clientY - rect.top;
+        let letters = document.querySelector("#text");
+        letters.innerText = makeid(1590);
+        letters.style.setProperty("--x", `${x}px`);
+        letters.style.setProperty("--y", `${y}px`);
+      });
+    </script>
+  </body>
+</html>
